@@ -59,7 +59,7 @@ start_p2 = MPI_Wtime();
 
 int block_sz, loc_start_i, loc_end_i;
 block_sz = (n / comm_sz);
-int loc_div_arr[((block_sz / x) + 1)];
+int loc_div_arr*;
 
 if (my_rank == 0){ loc_start_i = x; }
 else{ loc_start_i = (my_rank * block_sz); }
@@ -77,7 +77,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 	ctr++;
 }
 
-int glob_div_arr[((n / x) + 1)];
+int glob_div_arr*;
 
 
 MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
@@ -120,7 +120,7 @@ time_pt3 = (double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
 
 /* Print here the times of the three parts as indicated in the lab description */
 if (my_rank == 0){
-	printf("time of part1 = %f\ntime of part2 = %f\ntime of part3 = %f\n", time_pt1, time_pt2, time_pt3);
+	printf("time of part1 = %f s\ntime of part2 = %f s\ntime of part3 = %f s\n", time_pt1, time_pt2, time_pt3);
 }
 
 MPI_Finalize();
