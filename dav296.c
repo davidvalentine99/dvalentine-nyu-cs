@@ -80,7 +80,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 int *glob_div_arr = (int*)malloc(sizeof(int) * ((n / x) + 1));
 
 
-MPI_Gather(loc_div_arr, (block_sz / x) + 1), MPI_INT, glob_div_arr, (block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
+MPI_Gather(loc_div_arr, ((block_sz / x) + 1), MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
 
 end_p2 = MPI_Wtime();
 loc_time_pt2 = (end_p2 - start_p2);
