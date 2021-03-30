@@ -64,30 +64,28 @@ if (my_rank == 0){ loc_start_i = x; }
 else{ loc_start_i = (my_rank * block_sz); }
 
 if (my_rank == (comm_sz - 1)){ loc_end_i = n; }
-else{ loc_end_i = (loc_start_i + block_sz); } 
+else{ loc_end_i = (loc_start_i + block_sz - 1); } 
 
 while ((loc_start_i % x) != 0){
 	loc_start_i++;
 }
 
-int ctr = 0;
-for (int i = loc_start_i; i < loc_end_i; i += x){
-	ctr++;
-}
-int *loc_div_arr = (int*)malloc(sizeof(int) * ctr);
+int local_n = ((block_sz / x) + 2);
+int *loc_div_arr = (int*)malloc(sizeof(int) * local_n);
 
-ctr = 0;
-for (int i = loc_start_i; i < loc_end_i; i += x){
-	loc_div_arr[ctr] = i;
+int ctr = 0;
+for (int i = loc_start_i; ctr < local_n; i += x){
+	if (i <= loc_end_i){ loc_div_arr[ctr] = i; }
+	else{ loc_div_arr[ctr] = 0; }
 	ctr++;
 }
 
 int *glob_div_arr;
 if (my_rank == 0){
-	glob_div_arr = (int*)malloc(sizeof(int) * ((n / x) + 10));
+	glob_div_arr = (int*)malloc(sizeof(int) * ((local_n * comm_sz) + 1));
 }
 
-MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
+MPI_Gather(loc_div_arr, local_n, MPI_INT, glob_div_arr, local_n, MPI_INT, 0, MPI_COMM_WORLD);
 
 end_p2 = MPI_Wtime();
 loc_time_pt2 = (end_p2 - start_p2);
@@ -112,8 +110,10 @@ if (my_rank == 0){
 	  exit(1);
 	}
 
-	for(int i = 0; i < (n / x); i++){
-	  fprintf(fp,"%d\n", glob_div_arr[i]);
+	for(int i = 0; i < ((local_n * comm_sz) + 1); i++){
+		if(glob_div_arr[i]){
+	  		fprintf(fp,"%d\n", glob_div_arr[i]);
+		}
 	}
 
 	fclose(fp);
