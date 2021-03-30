@@ -16,7 +16,7 @@ FILE * fp; //for creating the output file
 char filename[100]=""; // the file name
 
 clock_t start_p1, start_p3, end_p1, end_p3;
-double time_pt1, time_pt2, time_pt3, start_p2, end_p2, loc_time_pt2;
+long double time_pt1, time_pt2, time_pt3, start_p2, end_p2, loc_time_pt2;
 
 
 /////////////////////////////////////////
@@ -47,7 +47,7 @@ MPI_Bcast(&x, 1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 
 
 end_p1 = clock();
-time_pt1 = (double)((end_p1 - start_p1) / CLOCKS_PER_SEC);
+time_pt1 = (long double)((end_p1 - start_p1) / CLOCKS_PER_SEC);
 //end of part 1
 /////////////////////////////////////////
 
@@ -59,7 +59,7 @@ start_p2 = MPI_Wtime();
 
 int block_sz, loc_start_i, loc_end_i;
 block_sz = (n / comm_sz);
-int loc_div_arr[((block_sz / x) + 5)];
+int loc_div_arr[((block_sz / x) + 1)];
 
 if (my_rank == 0){ loc_start_i = x; }
 else{ loc_start_i = (my_rank * block_sz); }
@@ -80,7 +80,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 int glob_div_arr[((n / x) + 1)];
 
 
-MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ctr, MPI_INT, 0, MPI_COMM_WORLD);
+MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
 
 end_p2 = MPI_Wtime();
 loc_time_pt2 = (end_p2 - start_p2);
@@ -105,7 +105,7 @@ if (my_rank == 0){
 	  exit(1);
 	}
 
-	for(int i = 0; i < ((n / x) + 1); i++){
+	for(int i = 0; i < (n / x); i++){
 	  fprintf(fp,"%d\n", glob_div_arr[i]);
 	}
 
@@ -114,7 +114,7 @@ if (my_rank == 0){
 
 
 end_p3 = clock();
-time_pt3 = (double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
+time_pt3 = (long double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
 //end of part 3
 /////////////////////////////////////////
 
