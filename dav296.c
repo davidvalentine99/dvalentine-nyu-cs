@@ -60,8 +60,7 @@ start_p2 = MPI_Wtime();
 int block_sz, loc_start_i, loc_end_i;
 block_sz = (n / comm_sz);
 
-if (my_rank == 0){ loc_start_i = x; }
-else{ loc_start_i = (my_rank * block_sz); }
+loc_start_i = (my_rank * block_sz);
 
 if (my_rank == (comm_sz - 1)){ loc_end_i = n; }
 else{ loc_end_i = (loc_start_i + block_sz - 1); } 
