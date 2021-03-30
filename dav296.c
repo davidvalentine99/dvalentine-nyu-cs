@@ -80,7 +80,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 int *glob_div_arr = (int*)malloc(sizeof(int) * ((n / x) + 1));
 
 
-MPI_Gather(loc_div_arr, ((block_sz / x) + 1), MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
+MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
 
 end_p2 = MPI_Wtime();
 loc_time_pt2 = (end_p2 - start_p2);
@@ -123,6 +123,7 @@ if (my_rank == 0){
 	printf("time of part1 = %f s\ntime of part2 = %f s\ntime of part3 = %f s\n", time_pt1, time_pt2, time_pt3);
 }
 
+MPI_Barrier(MPI_COMM_WORLD);
 free(loc_div_arr);
 free(glob_div_arr);
 	
