@@ -59,7 +59,7 @@ start_p2 = MPI_Wtime();
 
 int block_sz, loc_start_i, loc_end_i;
 block_sz = (n / comm_sz);
-int *loc_div_arr;
+int *loc_div_arr = (int*)malloc(4 * ((block_sz / x) + 1));
 
 if (my_rank == 0){ loc_start_i = x; }
 else{ loc_start_i = (my_rank * block_sz); }
@@ -77,7 +77,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 	ctr++;
 }
 
-int *glob_div_arr;
+int *glob_div_arr = (int*)malloc(4 * ((n / x) + 1));
 
 
 MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
