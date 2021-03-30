@@ -79,7 +79,7 @@ for (int i = loc_start_i; i < loc_end_i; i += x){
 
 int *glob_div_arr;
 if (my_rank == 0){
-	glob_div_arr = (int*)malloc(sizeof(int) * ((n / x) + 1));
+	glob_div_arr = (int*)malloc(sizeof(int) * ((n / x) + 10));
 }
 
 MPI_Gather(loc_div_arr, ctr, MPI_INT, glob_div_arr, ((block_sz / x) + 1), MPI_INT, 0, MPI_COMM_WORLD);
