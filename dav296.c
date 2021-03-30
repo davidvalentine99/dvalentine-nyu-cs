@@ -16,7 +16,7 @@ FILE * fp; //for creating the output file
 char filename[100]=""; // the file name
 
 clock_t start_p1, start_p3, end_p1, end_p3;
-long double time_pt1, time_pt2, time_pt3, start_p2, end_p2, loc_time_pt2;
+double time_pt1, time_pt2, time_pt3, start_p2, end_p2, loc_time_pt2;
 
 
 /////////////////////////////////////////
@@ -47,7 +47,7 @@ MPI_Bcast(&x, 1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 
 
 end_p1 = clock();
-time_pt1 = (long double)((end_p1 - start_p1) / CLOCKS_PER_SEC);
+time_pt1 = (double)((end_p1 - start_p1) / CLOCKS_PER_SEC);
 //end of part 1
 /////////////////////////////////////////
 
@@ -114,7 +114,7 @@ if (my_rank == 0){
 
 
 end_p3 = clock();
-time_pt3 = (long double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
+time_pt3 = (double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
 //end of part 3
 /////////////////////////////////////////
 
