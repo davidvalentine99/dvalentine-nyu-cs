@@ -105,7 +105,7 @@ if (my_rank == 0){
 	  exit(1);
 	}
 
-	for(i = 0; i < ((n / x) + 1); i++){
+	for(int i = 0; i < ((n / x) + 1); i++){
 	  fprintf(fp,"%d\n", glob_div_arr[i]);
 	}
 
@@ -120,9 +120,7 @@ time_pt3 = (double)((end_p3 - start_p3) / CLOCKS_PER_SEC);
 
 /* Print here the times of the three parts as indicated in the lab description */
 if (my_rank == 0){
-	printf("time of part1 = %f\n" + 
-		   "time of part2 = %f\n" +
-		   "time of part3 = %f\n", time_pt1, time_pt2, time_pt3);
+	printf("time of part1 = %f\ntime of part2 = %f\ntime of part3 = %f\n", time_pt1, time_pt2, time_pt3);
 }
 
 MPI_Finalize();
