@@ -59,7 +59,6 @@ start_p2 = MPI_Wtime();
 
 int block_sz, loc_start_i, loc_end_i;
 block_sz = (n / comm_sz);
-int *loc_div_arr = (int*)malloc(sizeof(int) * ((block_sz / x) + 5));
 
 if (my_rank == 0){ loc_start_i = x; }
 else{ loc_start_i = (my_rank * block_sz); }
@@ -72,6 +71,12 @@ while ((loc_start_i % x) != 0){
 }
 
 int ctr = 0;
+for (int i = loc_start_i; i < loc_end_i; i += x){
+	ctr++;
+}
+int *loc_div_arr = (int*)malloc(sizeof(int) * ctr);
+
+ctr = 0;
 for (int i = loc_start_i; i < loc_end_i; i += x){
 	loc_div_arr[ctr] = i;
 	ctr++;
