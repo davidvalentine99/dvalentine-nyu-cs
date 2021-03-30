@@ -123,6 +123,9 @@ if (my_rank == 0){
 	printf("time of part1 = %f s\ntime of part2 = %f s\ntime of part3 = %f s\n", time_pt1, time_pt2, time_pt3);
 }
 
+free(loc_div_arr);
+free(glob_div_arr);
+	
 MPI_Finalize();
 return 0;
 }
