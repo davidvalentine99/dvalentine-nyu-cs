@@ -81,7 +81,7 @@ for (int i = loc_start_i; ctr < local_n; i += x){
 
 int *glob_div_arr;
 if (my_rank == 0){
-	glob_div_arr = (int*)malloc(sizeof(int) * ((local_n * comm_sz) + 1));
+	glob_div_arr = (int*)malloc(sizeof(int) * ((local_n * comm_sz)));
 }
 
 MPI_Gather(loc_div_arr, local_n, MPI_INT, glob_div_arr, local_n, MPI_INT, 0, MPI_COMM_WORLD);
@@ -109,7 +109,7 @@ if (my_rank == 0){
 	  exit(1);
 	}
 
-	for(int i = 0; i < ((local_n * comm_sz) + 1); i++){
+	for(int i = 0; i < ((local_n * comm_sz)); i++){
 		if(glob_div_arr[i]){
 	  		fprintf(fp,"%d\n", glob_div_arr[i]);
 		}
