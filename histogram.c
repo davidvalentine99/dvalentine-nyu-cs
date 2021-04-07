@@ -18,7 +18,7 @@ if(!(fp = fopen(filename,"r"))){
 	printf("Cannot create file %s\n", filename);
 	exit(1);
 }
-fscanf(fp, "%d", num_floats);
+fscanf(fp, "%d", &num_floats);
 
 float* x = malloc(sizeof(float) * num_floats);
 int local_hist[num_threads][num_bins];
@@ -26,12 +26,12 @@ int global_hist[num_bins];
 float bin_sz = (20.0 / num_threads);
 
 for (int i = 0; i < num_floats; i++){
-	fscanf(fp, "%f", x[i]);
+	fscanf(fp, "%lf", x[i]);
 }
 
 fclose(fp);
 
-#pragma omp parallel default(none) shared(x, bin_sz, num_floats, num_threads, global_hist) private(i, j, tid, local_hist)
+#pragma omp parallel default(none) shared(x, bin_sz, num_floats, num_threads, global_hist) private(local_hist)
 {
 	int tid = omp_get_thread_num();
 
@@ -53,7 +53,7 @@ fclose(fp);
 }
 
 for (int i = 0; i < num_threads; i++){
-	printf("bin[" + %d + "]" + " = " + %d + "\n", i, global_hist[i]);
+	printf("bin[%d] = %d\n", &i, global_hist[i]);
 }
 
 }
