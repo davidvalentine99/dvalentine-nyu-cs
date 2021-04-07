@@ -34,6 +34,13 @@ for (int i = 0; i < num_bins; i++){
 	global_hist[i] = 0;
 }
 	
+for (int i = 0; i < num_bins; i++){
+	for (int j = 0; j < num_threads; j++){
+		printf("%d : ", local_hist[j][i]);
+	}
+	printf("%d \n", global_hist[i]);
+}
+	
 float bin_sz = (20.0 / num_threads);
 printf("Checkpoint 1d\n");
 
