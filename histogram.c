@@ -27,11 +27,11 @@ float* x = malloc(sizeof(float) * num_floats);
 int local_hist[num_threads][num_bins];
 int global_hist[num_bins];
 	
-for (int i = 0; i < num_threads; i++){
-	for (int j = 0; j < num_bins; j++){
-		printf("%d ", local_hist[i][j]);
+for (int i = 0; i < num_bins; i++){
+	for (int j = 0; j < num_threads; j++){
+		printf("%d ", local_hist[j][i]);
 	}
-	printf("%d \n", global_hist[j]);
+	printf("%d \n", global_hist[i]);
 }
 	
 float bin_sz = (20.0 / num_threads);
