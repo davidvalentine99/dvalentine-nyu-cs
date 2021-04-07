@@ -30,6 +30,8 @@ for (int i = 0; i < num_floats; i++){
 }
 
 fclose(fp);
+	
+printf("Checkpoint 1\n");
 
 #pragma omp parallel default(none) shared(x, bin_sz, num_floats, num_threads, global_hist) private(local_hist)
 {
@@ -43,6 +45,7 @@ fclose(fp);
 			}
 		}
 	}
+	printf("Checkpoint 2\n");
 
 	#pragma omp single
 	for (int i = 0; i < num_threads; i++){
@@ -50,6 +53,7 @@ fclose(fp);
 			global_hist[j] += local_hist[tid][j];
 		}	
 	}
+	printf("Checkpoint 3\n");
 }
 
 for (int i = 0; i < num_threads; i++){
