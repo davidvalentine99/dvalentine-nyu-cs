@@ -5,10 +5,11 @@
 
 int main(int argc, char *argv[]){
 
-int num_floats;
+int num_floats = 0;
 int num_bins = atoi(argv[1]);
 int num_threads = atoi(argv[2]);
 omp_set_num_threads(num_threads);
+printf("Checkpoint 1a\n");
 
 FILE * fp; 
 char filename[100]=""; 
@@ -18,12 +19,15 @@ if(!(fp = fopen(filename,"r"))){
 	printf("Cannot create file %s\n", filename);
 	exit(1);
 }
+printf("Checkpoint 1b\n");
 fscanf(fp, "%d", &num_floats);
+printf("Checkpoint 1c\n");
 
 float* x = malloc(sizeof(float) * num_floats);
 int local_hist[num_threads][num_bins];
 int global_hist[num_bins];
 float bin_sz = (20.0 / num_threads);
+printf("Checkpoint 1d\n");
 
 for (int i = 0; i < num_floats; i++){
 	fscanf(fp, "%f", &x[i]);
