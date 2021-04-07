@@ -29,9 +29,9 @@ int global_hist[num_bins];
 	
 for (int i = 0; i < num_bins; i++){
 	for (int j = 0; j < num_threads; j++){
-		printf("%d ", local_hist[j][i]);
+		local_hist[j][i] = 0;
 	}
-	printf("%d \n", global_hist[i]);
+	global_hist[i] = 0;
 }
 	
 float bin_sz = (20.0 / num_threads);
