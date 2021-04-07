@@ -61,6 +61,7 @@ printf("Checkpoint 1\n");
 		for (int j = 1; j <= num_threads; j++){
 			if (x[i] < (bin_sz * j)){
 				local_hist[tid][(j-1)]++;
+				break;
 			}
 		}
 	}
