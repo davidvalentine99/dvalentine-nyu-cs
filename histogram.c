@@ -24,8 +24,16 @@ fscanf(fp, "%d", &num_floats);
 printf("Checkpoint 1c\n");
 
 float* x = malloc(sizeof(float) * num_floats);
-int local_hist[num_threads][num_bins] = {{0}{0}};
-int global_hist[num_bins] = {0};
+int local_hist[num_threads][num_bins];
+int global_hist[num_bins];
+	
+for (int i = 0; i < num_threads; i++){
+	for (int j = 0; j < num_bins; j++){
+		printf("%d, %d ", local_hist[i][j]);
+		printf("and %d\n", global_hist[j]);
+	}
+}
+	
 float bin_sz = (20.0 / num_threads);
 printf("Checkpoint 1d\n");
 
