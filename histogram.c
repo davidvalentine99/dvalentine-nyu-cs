@@ -26,7 +26,7 @@ int global_hist[num_bins];
 float bin_sz = (20.0 / num_threads);
 
 for (int i = 0; i < num_floats; i++){
-	fscanf(fp, "%lf", &x[i]);
+	fscanf(fp, "%f", &x[i]);
 }
 
 fclose(fp);
