@@ -13,8 +13,11 @@ omp_set_num_threads(num_threads);
 FILE * fp; 
 char filename[100]=""; 
 strcpy(filename, argv[3]);
-strcat(filename, ".txt");
-fp = fopen(filename, "r");
+//strcat(filename, ".txt");
+if(!(fp = fopen(filename,"r"))){
+	printf("Cannot create file %s\n", filename);
+	exit(1);
+}
 fscanf(fp, "%d", num_floats);
 
 float* x = malloc(sizeof(float) * num_floats);
