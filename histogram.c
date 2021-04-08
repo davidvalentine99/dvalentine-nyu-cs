@@ -66,6 +66,12 @@ fclose(fp);
 		}
 	}
 	//printf("Checkpoint 2\n");	
+	if (tid == 0){
+		printf("\n");
+		for (int i = 0; i < num_bins; i++){
+			printf("bin[%d] = %d\n", i, global_hist[i]);
+		}
+	}
 	
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
