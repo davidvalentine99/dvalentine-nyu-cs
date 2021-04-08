@@ -41,7 +41,7 @@ for (int i = 0; i < num_bins; i++){
 	printf("%d \n", global_hist[i]);
 }
 */	
-float bin_sz = (20.0 / num_threads);
+float bin_sz = (20.0 / num_bins);
 //printf("Checkpoint 1d\n");
 
 for (int i = 0; i < num_floats; i++){
@@ -58,7 +58,7 @@ fclose(fp);
 
 	#pragma omp for
 	for (int i = 0; i < num_floats; i++){
-		for (int j = 1; j <= num_threads; j++){
+		for (int j = 1; j <= num_bins; j++){
 			if (x[i] < (bin_sz * j)){
 				local_hist[tid][(j-1)]++;
 				break;
@@ -67,18 +67,18 @@ fclose(fp);
 	}
 	//printf("Checkpoint 2\n");
 	
-	for (int i = 0; i < num_threads; i++){
+	for (int i = 0; i < num_bins; i++){
 		printf("bin[%d] = %d\n", i, global_hist[i]);
 	}	
 	
-	for (int i = 0; i < num_threads; i++){
+	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
 		global_hist[i] += local_hist[tid][i];	
 	}
 	//printf("Checkpoint 3\n");
 }
 
-for (int i = 0; i < num_threads; i++){
+for (int i = 0; i < num_bins; i++){
 	printf("bin[%d] = %d\n", i, global_hist[i]);
 }
 
