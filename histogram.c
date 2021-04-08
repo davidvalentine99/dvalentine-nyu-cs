@@ -66,7 +66,11 @@ fclose(fp);
 		}
 	}
 	//printf("Checkpoint 2\n");
-
+	
+	for (int i = 0; i < num_threads; i++){
+		printf("bin[%d] = %d\n", i, global_hist[i]);
+	}	
+	
 	for (int i = 0; i < num_threads; i++){
 		#pragma omp atomic
 		global_hist[i] += local_hist[tid][i];	
