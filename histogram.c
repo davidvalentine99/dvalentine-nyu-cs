@@ -48,6 +48,12 @@ for (int i = 0; i < num_floats; i++){
 }
 fclose(fp);
 	
+
+for (int i = 0; i < num_bins; i++){
+	printf("bin[%d] = %d\n", i, local_hist[0][i]);
+}
+printf("\n");
+
 //printf("Checkpoint 1\n");
 #pragma omp parallel shared(local_hist, global_hist)
 {
@@ -89,6 +95,11 @@ fclose(fp);
 }
 for (int i = 0; i < num_bins; i++){
 	printf("bin[%d] = %d\n", i, global_hist[i]);
+}
+	
+printf("\n");
+for (int i = 0; i < num_bins; i++){
+	printf("bin[%d] = %d\n", i, local_hist[0][i]);
 }
 
 }
