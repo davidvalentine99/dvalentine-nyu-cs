@@ -74,7 +74,7 @@ fclose(fp);
 		}
 	}
 	*/
-	if (tid == 0){
+	if (tid != 0){
 		for (int i = 0; i < num_bins; i++){
 			#pragma omp atomic
 			global_hist[i] += local_hist[tid][i];	
