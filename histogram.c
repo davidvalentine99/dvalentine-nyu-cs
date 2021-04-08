@@ -97,8 +97,9 @@ for (int i = 0; i < num_bins; i++){
 }
 	
 printf("\n");
-for (int i = 0; i < num_bins; i++){
-	printf("bin[%d] = %d\n", i, local_hist[0][i]);
+for (int j = 0; j < num_bins; j++){
+	printf("bin[%d] = %d\n", j, local_hist[0][j]);
 }
+printf("Checkpoint 1\n");
 
 }
