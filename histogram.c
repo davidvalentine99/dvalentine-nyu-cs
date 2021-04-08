@@ -93,7 +93,7 @@ printf("\n");
 	*/
 }
 for (int i = 0; i < num_bins; i++){
-	printf("bin[%d] = %d\n", i, global_hist[i]);
+	printf("Hello! bin[%d] = %d\n", i, global_hist[i]);
 }
 	
 printf("\n");
