@@ -24,11 +24,13 @@ fscanf(fp, "%d", &num_floats);
 //printf("Checkpoint 1c\n");
 
 float* x = malloc(sizeof(float) * num_floats);
-int local_hist[num_bins];
+int local_hist[num_threads][num_bins];
 int global_hist[num_bins];
 	
 for (int i = 0; i < num_bins; i++){
-	local_hist[i] = 0;
+	for (int j = 0; j < num_threads; j++){
+		local_hist[j][i] = 0;
+	}
 	global_hist[i] = 0;
 }
 /*
@@ -41,22 +43,20 @@ for (int i = 0; i < num_bins; i++){
 */	
 float bin_sz = (20.0 / num_bins);
 //printf("Checkpoint 1d\n");
-
 for (int i = 0; i < num_floats; i++){
 	fscanf(fp, "%f", &x[i]);
 }
-
 fclose(fp);
 	
 //printf("Checkpoint 1\n");
-
-#pragma omp parallel private(local_hist) shared(global_hist)
+#pragma omp parallel shared(local_hist, global_hist)
 {
+	int tid = omp_get_thread_num();
 	#pragma omp for
 	for (int i = 0; i < num_floats; i++){
 		for (int j = 1; j <= num_bins; j++){
 			if (x[i] < (bin_sz * j)){
-				local_hist[(j-1)]++;
+				local_hist[tid][(j-1)]++;
 				break;
 			}
 		}
@@ -70,9 +70,11 @@ fclose(fp);
 		}
 	}
 	*/
+
+
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
-		global_hist[i] += local_hist[i];	
+		global_hist[i] += local_hist[tid][i];	
 	}
 	//printf("Checkpoint 3\n");
 	/*
@@ -84,7 +86,6 @@ fclose(fp);
 	}
 	*/
 }
-
 for (int i = 0; i < num_bins; i++){
 	printf("bin[%d] = %d\n", i, global_hist[i]);
 }
