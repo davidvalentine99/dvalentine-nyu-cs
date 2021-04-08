@@ -37,12 +37,6 @@ for (int i = 0; i < num_floats; i++){
 	fscanf(fp, "%f", &x[i]);
 }
 fclose(fp);
-	
-
-for (int i = 0; i < num_bins; i++){
-	printf("bin[%d] = %d\n", i, local_hist[0][i]);
-}
-printf("\n");
 
 #pragma omp parallel num_threads(num_threads)
 {
