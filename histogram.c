@@ -68,10 +68,8 @@ fclose(fp);
 	//printf("Checkpoint 2\n");
 
 	for (int i = 0; i < num_threads; i++){
-		for (int j = 0; j < num_threads; j++){
-			#pragma omp atomic
-			global_hist[j] += local_hist[tid][j];
-		}	
+		#pragma omp atomic
+		global_hist[i] += local_hist[tid][i];	
 	}
 	//printf("Checkpoint 3\n");
 }
