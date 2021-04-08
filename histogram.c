@@ -33,14 +33,14 @@ for (int i = 0; i < num_bins; i++){
 	}
 	global_hist[i] = 0;
 }
-
+/*
 for (int i = 0; i < num_bins; i++){
 	for (int j = 0; j < num_threads; j++){
 		printf("%d : ", local_hist[j][i]);
 	}
 	printf("%d \n", global_hist[i]);
 }
-	
+*/	
 float bin_sz = (20.0 / num_bins);
 //printf("Checkpoint 1d\n");
 
@@ -65,25 +65,30 @@ fclose(fp);
 			}
 		}
 	}
-	//printf("Checkpoint 2\n");	
+	//printf("Checkpoint 2\n");
+	/*
 	if (tid == 0){
 		printf("\n");
 		for (int i = 0; i < num_bins; i++){
 			printf("bin[%d] = %d\n", i, global_hist[i]);
 		}
 	}
-	
-	for (int i = 0; i < num_bins; i++){
-		#pragma omp atomic
-		global_hist[i] += local_hist[tid][i];	
+	*/
+	if (tid != 0){
+		for (int i = 0; i < num_bins; i++){
+			#pragma omp atomic
+			global_hist[i] += local_hist[tid][i];	
+		}
 	}
 	//printf("Checkpoint 3\n");
+	/*
 	if (tid == 0){
 		printf("\n");
 		for (int i = 0; i < num_bins; i++){
 			printf("bin[%d] = %d\n", i, global_hist[i]);
 		}
 	}
+	*/
 }
 
 for (int i = 0; i < num_bins; i++){
