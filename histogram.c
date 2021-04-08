@@ -52,7 +52,7 @@ fclose(fp);
 #pragma omp parallel shared(local_hist, global_hist)
 {
 	int tid = omp_get_thread_num();
-	#pragma omp for
+	#pragma omp for nowait
 	for (int i = 0; i < num_floats; i++){
 		for (int j = 1; j <= num_bins; j++){
 			if (x[i] < (bin_sz * j)){
