@@ -76,6 +76,12 @@ fclose(fp);
 		global_hist[i] += local_hist[tid][i];	
 	}
 	//printf("Checkpoint 3\n");
+	if (tid == 0){
+		printf("\n");
+		for (int i = 0; i < num_bins; i++){
+			printf("bin[%d] = %d\n", i, global_hist[i]);
+		}
+	}
 }
 
 for (int i = 0; i < num_bins; i++){
