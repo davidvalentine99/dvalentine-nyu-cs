@@ -54,7 +54,7 @@ for (int i = 0; i < num_bins; i++){
 printf("\n");
 
 //printf("Checkpoint 1\n");
-#pragma omp parallel num_threads(num_threads) shared(local_hist, global_hist)
+#pragma omp parallel num_threads(num_threads)
 {
 	int tid = omp_get_thread_num();
 	#pragma omp for nowait
