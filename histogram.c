@@ -52,7 +52,7 @@ fclose(fp);
 	
 //printf("Checkpoint 1\n");
 
-#pragma omp parallel default(none) shared(x, bin_sz, num_floats, num_threads, global_hist) private(local_hist)
+#pragma omp parallel private(local_hist)
 {
 	int tid = omp_get_thread_num();
 
@@ -67,9 +67,9 @@ fclose(fp);
 	}
 	//printf("Checkpoint 2\n");
 
-	#pragma omp single
 	for (int i = 0; i < num_threads; i++){
 		for (int j = 0; j < num_threads; j++){
+			#pragma omp atomic
 			global_hist[j] += local_hist[tid][j];
 		}	
 	}
