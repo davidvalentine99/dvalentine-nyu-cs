@@ -61,7 +61,7 @@ fclose(fp);
 			}
 		}
 	}
-	//printf("Checkpoint 2\n");
+	printf("Checkpoint 2\n");
 	printf("Greetings from process %d of %d\n", tid, num_threads);
 	
 	if (tid == 0){
