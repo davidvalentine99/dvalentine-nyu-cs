@@ -8,7 +8,7 @@ int main(int argc, char *argv[]){
 int num_floats = 0;
 int num_bins = atoi(argv[1]);
 int num_threads = atoi(argv[2]);
-//printf("Checkpoint 1a\n");
+
 
 FILE * fp; 
 char filename[100]=""; 
@@ -18,9 +18,8 @@ if(!(fp = fopen(filename,"r"))){
 	printf("Cannot create file %s\n", filename);
 	exit(1);
 }
-//printf("Checkpoint 1b\n");
 fscanf(fp, "%d", &num_floats);
-//printf("Checkpoint 1c\n");
+
 
 float* x = malloc(sizeof(float) * num_floats);
 int local_hist[num_threads][num_bins];
@@ -32,16 +31,8 @@ for (int i = 0; i < num_bins; i++){
 	}
 	global_hist[i] = 0;
 }
-/*
-for (int i = 0; i < num_bins; i++){
-	for (int j = 0; j < num_threads; j++){
-		printf("%d : ", local_hist[j][i]);
-	}
-	printf("%d \n", global_hist[i]);
-}
-*/	
+	
 float bin_sz = (20.0 / num_bins);
-//printf("Checkpoint 1d\n");
 for (int i = 0; i < num_floats; i++){
 	fscanf(fp, "%f", &x[i]);
 }
@@ -53,7 +44,6 @@ for (int i = 0; i < num_bins; i++){
 }
 printf("\n");
 
-//printf("Checkpoint 1\n");
 #pragma omp parallel num_threads(num_threads)
 {
 	int tid = omp_get_thread_num();
@@ -66,40 +56,15 @@ printf("\n");
 			}
 		}
 	}
-	printf("Checkpoint 2\n");
-	printf("Greetings from process %d of %d\n", tid, num_threads);
-	
-	if (tid == 0){
-		printf("\n");
-		for (int i = 0; i < num_bins; i++){
-			printf("bin[%d] = %d\n", i, local_hist[tid][i]);
-		}
-	}
-	
-
 
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
 		global_hist[i] += local_hist[tid][i];	
 	}
-	//printf("Checkpoint 3\n");
-	/*
-	if (tid == 0){
-		printf("\n");
-		for (int i = 0; i < num_bins; i++){
-			printf("bin[%d] = %d\n", i, global_hist[i]);
-		}
-	}
-	*/
+	
 }
 for (int i = 0; i < num_bins; i++){
-	printf("Hello! bin[%d] = %d\n", i, global_hist[i]);
+	printf("bin[%d] = %d\n", i, global_hist[i]);
 }
 	
-printf("\n");
-for (int j = 0; j < num_bins; j++){
-	printf("bin[%d] = %d\n", j, local_hist[0][j]);
-}
-printf("Checkpoint 1\n");
-
 }
