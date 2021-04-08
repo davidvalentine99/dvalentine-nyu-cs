@@ -24,11 +24,11 @@ fscanf(fp, "%d", &num_floats);
 //printf("Checkpoint 1c\n");
 
 float* x = malloc(sizeof(float) * num_floats);
-int local_hist[num_threads][num_bins];
+int local_hist[num_threads+1][num_bins];
 int global_hist[num_bins];
 	
 for (int i = 0; i < num_bins; i++){
-	for (int j = 0; j < num_threads; j++){
+	for (int j = 0; j <= num_threads; j++){
 		local_hist[j][i] = 0;
 	}
 	global_hist[i] = 0;
@@ -62,7 +62,7 @@ printf("\n");
 	for (int i = 0; i < num_floats; i++){
 		for (int j = 1; j <= num_bins; j++){
 			if (x[i] < (bin_sz * j)){
-				local_hist[tid][(j-1)]++;
+				local_hist[tid+1][(j-1)]++;
 				break;
 			}
 		}
@@ -73,7 +73,7 @@ printf("\n");
 	if (tid == 0){
 		printf("\n");
 		for (int i = 0; i < num_bins; i++){
-			printf("bin[%d] = %d\n", i, local_hist[tid][i]);
+			printf("bin[%d] = %d\n", i, local_hist[tid+1][i]);
 		}
 	}
 	
@@ -81,7 +81,7 @@ printf("\n");
 
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
-		global_hist[i] += local_hist[tid][i];	
+		global_hist[i] += local_hist[tid+1][i];	
 	}
 	//printf("Checkpoint 3\n");
 	/*
