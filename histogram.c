@@ -27,7 +27,7 @@ fscanf(fp, "%d", &num_floats);
 
 //allocate memory for global float array, global and local histograms
 float* x = malloc(sizeof(float) * num_floats);
-__declspec (align(64)) int local_hist[num_threads][num_bins];
+int local_hist[num_threads][num_bins];
 int global_hist[num_bins];
 
 //initialize values of histograms to 0
