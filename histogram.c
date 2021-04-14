@@ -27,14 +27,12 @@ fscanf(fp, "%d", &num_floats);
 
 //allocate memory for global float array, global and local histograms
 float* x = malloc(sizeof(float) * num_floats);
-int local_hist[num_threads][num_bins];
+int local_hist[num_bins];
 int global_hist[num_bins];
 
 //initialize values of histograms to 0
 for (int i = 0; i < num_bins; i++){
-	for (int j = 0; j < num_threads; j++){
-		local_hist[j][i] = 0;
-	}
+	local_hist[i] = 0;
 	global_hist[i] = 0;
 }
 	
@@ -46,10 +44,8 @@ fclose(fp);
 
 start_p = clock();
 //begin parallel section
-#pragma omp parallel num_threads(num_threads)
+#pragma omp parallel num_threads(num_threads) private(local_hist) shared(global_hist)
 {
-	//get thread id to index local histogram
-	int tid = omp_get_thread_num();
 	
 	//put floats from array into local bins
 	#pragma omp for nowait
@@ -57,7 +53,7 @@ start_p = clock();
 		for (int j = 1; j <= num_bins; j++){
 			//check for correct bin to increment
 			if (x[i] < (bin_sz * j)){
-				local_hist[tid][(j-1)]++;
+				local_hist[(j-1)]++;
 				break;
 			}
 		}
@@ -66,7 +62,7 @@ start_p = clock();
 	//add values for each local histogram to global histogram
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
-		global_hist[i] += local_hist[tid][i];	
+		global_hist[i] += local_hist[i];	
 	}
 //end parallel section
 }
