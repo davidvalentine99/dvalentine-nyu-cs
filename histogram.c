@@ -38,6 +38,10 @@ for (int i = 0; i < num_bins; i++){
 	global_hist[i] = 0;
 }
 
+//read floats from file into array
+for (int i = 0; i < num_floats; i++){
+	fscanf(fp, "%f", &x[i]);
+}
 fclose(fp);
 
 start_p = clock();
@@ -59,6 +63,7 @@ start_p = clock();
 			}
 		}
 	}
+	
 	//add values for each local histogram to global histogram
 	for (int i = 0; i < num_bins; i++){
 		#pragma omp atomic
@@ -66,12 +71,15 @@ start_p = clock();
 	}
 //end parallel section
 }
+	
 end_p = clock();
 time_p = (double)((end_p - start_p) / (double)CLOCKS_PER_SEC);
+	
 //print values of bins
 for (int i = 0; i < num_bins; i++){
 	printf("bin[%d] = %d\n", i, global_hist[i]);
 }
+	
 //printf("Time parallel section: %f\n", time_p);
 	
 }
