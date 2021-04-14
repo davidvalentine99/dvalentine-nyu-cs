@@ -1,15 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-//#include <time.h>
+#include <time.h>
 #include <omp.h>
 
 int main(int argc, char *argv[]){
 	
 //initialize shared variables; read command line arguments
 int num_floats = 0;
-//clock_t start_p, end_p;
-//double time_p;
+clock_t start_p, end_p;
+double time_p;
 int num_bins = atoi(argv[1]);
 int num_threads = atoi(argv[2]);
 float bin_sz = (20.0 / num_bins);
@@ -40,7 +40,7 @@ for (int i = 0; i < num_floats; i++){
 }
 fclose(fp);
 
-//start_p = clock();
+start_p = clock();
 
 //begin parallel section
 #pragma omp parallel num_threads(num_threads)
@@ -71,14 +71,14 @@ fclose(fp);
 //end parallel section
 }
 	
-//end_p = clock();
-//time_p = (double)((end_p - start_p) / (double)CLOCKS_PER_SEC);
+end_p = clock();
+time_p = (double)((end_p - start_p) / (double)CLOCKS_PER_SEC);
 	
 //print values of bins
 for (int i = 0; i < num_bins; i++){
 	printf("bin[%d] = %d\n", i, global_hist[i]);
 }
 	
-//printf("Time parallel section: %f\n", time_p);
+printf("Time parallel section: %f\n", time_p);
 	
 }
