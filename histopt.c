@@ -72,7 +72,7 @@ fclose(fp);
 }
 	
 //end_p = clock();
-time_p = (double)((end_p - start_p) / (double)CLOCKS_PER_SEC);
+//time_p = (double)((end_p - start_p) / (double)CLOCKS_PER_SEC);
 	
 //print values of bins
 for (int i = 0; i < num_bins; i++){
