@@ -37,7 +37,7 @@ for (int i = 0; i < num_floats; i++){
 fclose(fp);
 
 //begin parallel section
-#pragma omp parallel num_threads(num_threads) shared(global_hist) private(local_hist)
+#pragma omp parallel num_threads(num_threads) shared(x, global_hist) private(local_hist)
 {
 	for (int i = 0; i < num_bins; i++){
 		local_hist[i] = 0;
