@@ -17,7 +17,7 @@ char filename[100]="";
 strcpy(filename, argv[3]);
 //strcat(filename, ".txt"); //uncomment if filename excludes extension
 if(!(fp = fopen(filename,"r"))){
-	printf("Cannot create file %s\n", filename);
+	printf("Cannot find file %s\n", filename);
 	exit(1);
 }
 fscanf(fp, "%d", &num_floats);
@@ -25,8 +25,6 @@ fscanf(fp, "%d", &num_floats);
 //allocate memory for global float array and histogram
 float* x = malloc(sizeof(float) * num_floats);
 int global_hist[num_bins];
-
-//initialize values of histograms to 0
 for (int i = 0; i < num_bins; i++){
 	global_hist[i] = 0;
 }
