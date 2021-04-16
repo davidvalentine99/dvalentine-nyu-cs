@@ -25,8 +25,10 @@ fscanf(fp, "%d", &num_floats);
 //allocate memory for global float array and histogram
 float* x = malloc(sizeof(float) * num_floats);
 int global_hist[num_bins];
+int local_hist[num_bins];
 for (int i = 0; i < num_bins; i++){
 	global_hist[i] = 0;
+	local_hist[i] = 0;
 }
 
 //read floats from file into array
@@ -36,14 +38,8 @@ for (int i = 0; i < num_floats; i++){
 fclose(fp);
 
 //begin parallel section
-#pragma omp parallel num_threads(num_threads)
+#pragma omp parallel num_threads(num_threads) shared(global_hist) private(local_hist)
 {
-	//create local_histogram
-	int local_hist[num_bins];
-	for (int i = 0; i < num_bins; i++){
-		local_hist[i] = 0;
-	}
-
 	//put floats from array into local bins
 	#pragma omp for nowait
 	for (int i = 0; i < num_floats; i++){
